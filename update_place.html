@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Entry</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4">Update Entry</h3>
+        <form id="updateForm">
+            <!-- Province -->
+            <div class="mb-3">
+                <label for="province" class="form-label">Province</label>
+                <input type="text" class="form-control" id="province" name="Province" required>
+            </div>
+            <!-- District -->
+            <div class="mb-3">
+                <label for="district" class="form-label">District</label>
+                <input type="text" class="form-control" id="district" name="District" required>
+            </div>
+            <!-- Place Name -->
+            <div class="mb-3">
+                <label for="place-name" class="form-label">Place Name</label>
+                <input type="text" class="form-control" id="place-name" name="PlaceName" required>
+            </div>
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="Description" rows="3" required></textarea>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+    <script>
+        // Get the index from the URL query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const index = urlParams.get('index');
+
+        // Load data from localStorage
+        const data = JSON.parse(localStorage.getItem('formData')) || [];
+        const entry = data[index];
+
+        if (entry) {
+            document.getElementById('province').value = entry.province;
+            document.getElementById('district').value = entry.district;
+            document.getElementById('place-name').value = entry.placeName;
+            document.getElementById('description').value = entry.description;
+        }
+
+        // Handle form submission
+        document.getElementById('updateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const updatedData = {
+                province: document.getElementById('province').value,
+                district: document.getElementById('district').value,
+                placeName: document.getElementById('place-name').value,
+                description: document.getElementById('description').value
+            };
+
+            // Update the data in localStorage
+            data[index] = updatedData;
+            localStorage.setItem('formData', JSON.stringify(data));
+
+            // Redirect to the dashboard
+            window.location.href = './dashboard.html';
+        });
+    </script>
+</body>
+</html>

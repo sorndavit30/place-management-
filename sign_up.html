@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <style>
+        .text-decoration-non {
+            text-decoration: none;
+        }
+
+        .text-decoration-non:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+    <div class="container col-md-4 bg-white rounded shadow p-4">
+        <h3 class="text-center mb-4">Create Your Account</h3>
+
+        <form id="signup-form">
+            <!-- First Name -->
+            <div class="mb-3">
+                <input id="first_name" type="text" class="form-control" name="first_name" placeholder="First Name" required>
+            </div>
+            <!-- Last Name -->
+            <div class="mb-3">
+                <input id="last_name" type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+            </div>
+            <!-- Phone Number -->
+            <div class="mb-3">
+                <input id="number" type="tel" class="form-control" name="phone_number" placeholder="Phone Number" 
+                    pattern="[0-9]{10}" title="Enter a valid 10-digit phone number" required>
+            </div>
+            <!-- Email -->
+            <div class="mb-3">
+                <input id="email" type="email" class="form-control" name="email" placeholder="Email" required>
+            </div>
+            <!-- Password -->
+            <div class="mb-3">
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password" minlength="8" required>
+            </div>
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <input id="confirm_password" type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" minlength="8" required>
+            </div>
+            <!-- Under form -->
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="./log_in.html" class="text-decoration-non">Already have an account?</a>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        // JavaScript to validate form inputs
+        document.getElementById('signup-form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const firstName = document.getElementById('first_name').value.trim();
+            const lastName = document.getElementById('last_name').value.trim();
+            const phoneNumber = document.getElementById('number').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirm_password').value.trim();
+
+            // Validate inputs
+            if (!firstName || !lastName || !phoneNumber || !email || !password || !confirmPassword) {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            // Validate phone number
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(phoneNumber)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return;
+            }
+
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match. Please try again.');
+                return;
+            }
+
+            // If validation passes, simulate account creation
+            alert('Account created successfully!');
+            window.location.href = './place.html';
+        });
+    </script>
+</body>
+</html>

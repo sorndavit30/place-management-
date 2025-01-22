@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add place</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4">Add New Entry</h3>
+        <form id="addForm">
+            <!-- Province -->
+            <div class="mb-3">
+                <label for="province" class="form-label">Province</label>
+                <input type="text" class="form-control" id="province" name="Province" required>
+            </div>
+            <!-- District -->
+            <div class="mb-3">
+                <label for="district" class="form-label">District</label>
+                <input type="text" class="form-control" id="district" name="District" required>
+            </div>
+            <!-- Place Name -->
+            <div class="mb-3">
+                <label for="place-name" class="form-label">Place Name</label>
+                <input type="text" class="form-control" id="place-name" name="PlaceName" required>
+            </div>
+            <!-- Description -->
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="Description" rows="3" required></textarea>
+            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+
+    <script>
+        // When the form is submitted, save the data to localStorage
+        document.getElementById('addForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent form submission to reload the page
+
+            // Get values from the form fields
+            const formData = {
+                province: document.getElementById('province').value,
+                district: document.getElementById('district').value,
+                placeName: document.getElementById('place-name').value,
+                description: document.getElementById('description').value
+            };
+
+            // Retrieve existing data or initialize an empty array
+            let data = JSON.parse(localStorage.getItem('formData')) || [];
+
+            // Push the new entry to the array
+            data.push(formData);
+
+            // Save the updated data to localStorage
+            localStorage.setItem('formData', JSON.stringify(data));
+
+            // Show success message (Optional)
+            alert('Place added successfully!');
+
+            // Redirect to the dashboard after a short delay
+            setTimeout(() => {
+                window.location.href = './dashboard.html';
+            }, 500); // 500ms delay before redirecting
+        });
+    </script>
+</body>
+</html>

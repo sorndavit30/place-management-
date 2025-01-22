@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="mb-4">Dashboard</h3>
+
+        <!-- Log Out Button -->
+        <div class="log_in" style="display: flex; justify-content: right; align-items: right; position: absolute; top: 20px; right: 20px;">
+            <a href="./log_in.html"><button type="button" class="btn btn-warning">Log Out</button></a>
+        </div>
+
+        <!-- Add New Entry Button -->
+        <div class="mb-3">
+            <a href="./place.html" class="btn btn-primary">Add New</a>
+        </div>
+
+        <!-- Filter Options -->
+        <div class="mb-3">
+            <label for="filter" class="form-label">Filter by Province:</label>
+            <input type="text" id="filter" class="form-control" placeholder="Enter province to filter">
+        </div>
+
+        <!-- Table to show entries -->
+        <table class="table table-hover table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Province</th>
+                    <th>District</th>
+                    <th>Place Name</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <!-- place input -->
+
+            <thead>
+                <tr>
+
+
+                </tr>
+            </thead>
+
+            <tbody id="table-body">
+                <!-- Dynamic rows will be inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Function to load data and display it in the table
+        function loadData(filter = '') {
+            const data = JSON.parse(localStorage.getItem('formData')) || [];
+            const tableBody = document.getElementById('table-body');
+            const filterValue = filter.toLowerCase();
+            tableBody.innerHTML = ''; // Clear the table body
+
+            // Loop through the data and create rows
+            data.forEach((entry, index) => {
+                // If the filter is provided, only show matching entries
+                if (entry.province.toLowerCase().includes(filterValue)) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${entry.province}</td>
+                        <td>${entry.district}</td>
+                        <td>${entry.placeName}</td>
+                        <td>${entry.description}</td>
+                        <td><a href="./update_place.html?index=${index}" class="btn btn-warning btn-sm">Edit</a></td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteEntry(${index})">Delete</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
+        }
+
+        // Function to delete an entry
+        function deleteEntry(index) {
+            let data = JSON.parse(localStorage.getItem('formData')) || [];
+            data.splice(index, 1); // Remove the entry at the given index
+            localStorage.setItem('formData', JSON.stringify(data)); // Save updated data back to localStorage
+            loadData(document.getElementById('filter').value); // Reload the table with filter
+        }
+
+        // Add an event listener to the filter input field
+        document.getElementById('filter').addEventListener('input', function(e) {
+            loadData(e.target.value); // Reload table with filter
+        });
+
+        // Load data when the page is loaded
+        window.onload = function() {
+            loadData(); // Load data initially
+        };
+    </script>
+</body>
+</html>
